@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Matagatani Students</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fa-solid fa-list "></i>All students
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa-solid fa-chart-line"></i>Student progress</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa-solid fa-plus"></i>Add student</a>
+                </li>
+
+
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-sm-2" type="search" placeholder="Search" spellcheck="false" data-ms-editor="true">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <h3 class="m-4">All students</h3>
+    <div class="row">
+        <div class="col-12">
+            {% if students %}
+                <div class="card bg-light ms-4 me-4 mb-4">
+                    <div class="card-header">
+                        <i class="fa-solid fa-list "></i>Student Records
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Assessment Number</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">UPI Number</th>
+                                    <th scope="col">Birth Certificate Number</th>
+                                    <th scope="col">Parent Name</th>
+                                    <th scope="col">Actions</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for student in students %}
+                                    <tr>
+                                        <td>{{ student.assessment_number}}</td>
+                                        <td>{{ student.name}}</td>
+                                        <td>{{ student.age}}</td>
+                                        <td>{{ student.student_class}}</td>
+                                        <td>{{ student.upi}}</td>
+                                        <td>{{ student.birth_certificate_number}}</td>
+                                        <td>{{ student.parent_name}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-success me-1" href="{% url 'view_student' student.id %}" data-bs-target="modal" data-bs-target="#myModal{{ student.id }}">
+                                                <i class="fa-solid fa-circle-info"></i>
+                                            </button>
+                                            {#                                            Modal - View Student#}
+                                            <div class="modal" id="myModal{{ student.id }}" tabindex="-1" aria-labelledby="myModal{{ student.id }}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Modal title</h5>
+                                                            Student:{{ student.assessment_number }} {{ student.upi }} {{ student.name }}
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true"></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul class="list-unstyled">
+                                                                <li>Assessment Number: <strong>{{ student.assessment_number }}</strong></li>
+                                                                <li>Name: <strong>{{ student.name }}</strong></li>
+                                                                <li>Age: <strong>{{ student.age }}</strong></li>
+                                                                <li>Class: <strong>{{ student.student_class }}</strong></li>
+                                                                <li>UPI: <strong>{{ student.upi }}</strong></li>
+                                                                <li>Birth Certificate Number: <strong>{{ student.birth_certificate_number }}</strong></li>
+                                                                <li>Parent Name: <strong>{{ student.parent_name }}</strong></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="modal-footer">
+
+                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <h5 class="alert alert-primary ms-4 me-4">No Student Records</h5>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<footer class="mt-auto mb-4">
+    <div class="text-center">
+        <span>
+            copyright &copy;<script>document.write(new Date().getFullYear())</script> Matagatani Primary School
+        </span>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
